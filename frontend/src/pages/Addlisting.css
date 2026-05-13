@@ -1,0 +1,25 @@
+.add-listing{
+  max-width:600px;
+  margin:50px auto;
+}
+
+form{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+input, textarea{
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:6px;
+}
+
+button{
+  padding:12px;
+  background:#ff385c;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}

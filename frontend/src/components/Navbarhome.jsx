@@ -1,0 +1,164 @@
+
+
+// export default Navbar;
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import logo from "../assets/logo.png";
+import homeIcon from "../assets/home.png";
+import balloonIcon from "../assets/balloon.png";
+import pricingIcon from "../assets/pricing.png";
+
+import "./Navbarhome.css";
+import Pricing from "./Pricing";  
+import Services from "./services";
+ 
+
+const Navbar = () => {
+  const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [priceOpen, setPriceOpen] = useState(false);
+
+  // Search states
+  const [location, setLocation] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState(1);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  // ✅ Full handleSearch with fetch
+  const handleSearch = async () => {
+    if (!location.trim()) {
+      alert("Please enter a city");
+      return;
+    }
+
+    // Build query object
+    const queryObj = { city: location.trim(), guests: Number(guests) || 1 };
+    if (checkIn) queryObj.checkIn = checkIn;
+    if (checkOut) queryObj.checkOut = checkOut;
+
+    const query = new URLSearchParams(queryObj).toString();
+
+    try {
+      // Fetch from backend /api/hotels/search
+      const res = await fetch(`http://localhost:5000/api/hotels/search?${query}`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch hotels");
+      }
+      const data = await res.json();
+
+      console.log("Hotels fetched:", data);
+
+      // Navigate to Hotels page with query + pass data in state
+      navigate(`/searchHotel?${query}`, { state: { hotels: data } });
+    } catch (err) {
+      console.error("Search error:", err);
+      alert("Error fetching hotels. Check console.");
+    }
+  };
+
+  return (
+    <>
+      <nav className="navbar">
+
+        {/* Logo */}
+        <div className="logo">
+          <Link to="/">
+            <img src={logo} alt="Travelia Logo" className="logo-image" />
+          </Link>
+        </div>
+
+        {/* Hamburger */}
+        <div className="hamburger" onClick={() => setOpen(!open)}>
+          ☰
+        </div>
+
+        {/* Menu */}
+        <div className="menu">
+          <Link to="/Home" className="home-link">
+            <img src={homeIcon} alt="Home" className="home-icon" />
+            <span>Home</span>
+          </Link>
+
+          <Link to="/services" className="balloon-link">
+            <img src={balloonIcon} alt="Balloon" className="balloon-icon" />
+            <span>Balloon</span>
+          </Link>
+
+          <div className="pricing-link" onClick={() => setPriceOpen(true)}>
+            <img src={pricingIcon} alt="pricing" className="pricing-icon" />
+            <span>Pricing</span>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Where are you going?"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="search-input location"
+          />
+
+          <input
+            type="date"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            className="search-input date"
+          />
+
+          <input
+            type="date"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            className="search-input date"
+          />
+
+          <input
+            type="number"
+            min="1"
+            value={guests}
+            onChange={(e) => setGuests(Number(e.target.value))}
+            className="search-input guests"
+          />
+
+          <button className="search-button" onClick={handleSearch}>Search</button>
+        </div>
+      </nav>
+
+      {/* Profile Sidebar */}
+      {open && (
+        <div className="sidebar">
+          <div className="close-btn" onClick={() => setOpen(false)}>✕</div>
+
+          <h5 className="menu">Traveliia</h5>
+
+          <p onClick={() => navigate("/profile")}>👤 Profile</p>
+          <hr />
+          <p onClick={() => navigate("/MyBooking")}>📖 My Bookings</p>
+          <hr />
+          <p onClick={() => navigate("/Addlisting")}>🏠 AddListing</p>
+          <hr />
+          <p onClick={() => navigate("/Mylistings")}>📖 My Listings</p>
+          <hr />
+          <p onClick={() => navigate("/help")}>❓ Help</p>
+          <hr />
+          <p className="logout" onClick={handleLogout}>🚪 Logout</p>
+        </div>
+      )}
+
+      {/* Price Sidebar */}
+      {priceOpen && <Pricing closeSidebar={() => setPriceOpen(false)} />}
+    </>
+  );
+};
+
+export default Navbar;

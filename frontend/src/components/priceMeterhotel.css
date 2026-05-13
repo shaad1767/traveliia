@@ -1,0 +1,43 @@
+/* Page container */
+.hotels-container {
+  padding: 30px;
+}
+
+/* Title */
+.hotels-container h1 {
+  margin-bottom: 20px;
+}
+
+/* Hotel list grid */
+.hotel-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Hotel card */
+.hotel-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 15px;
+  width: 220px;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+/* Hover effect */
+.hotel-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Hotel name */
+.hotel-card h3 {
+  margin-bottom: 10px;
+}
+
+/* Price text */
+.hotel-card p {
+  font-weight: bold;
+  color: #ff385c;
+}

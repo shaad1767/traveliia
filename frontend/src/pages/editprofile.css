@@ -1,0 +1,104 @@
+.edit-container {
+  width: 500px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.edit-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* FORM ROW */
+.form-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+/* LABEL */
+.form-row label {
+  width: 140px;
+  font-weight: 600;
+}
+
+/* INPUT BOX */
+.input-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* ERROR */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* PASSWORD */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+}
+
+.eye {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+/* IMAGE */
+.image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.image-section img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;    /* 🔥 image stretch na ho */
+  border: 3px solid #ff385c;
+}
+
+.image-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.image-buttons button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #ff385c;
+  color: white;
+  cursor: pointer;
+}
+
+/* SAVE BUTTON */
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff385c, #ff7a18);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}

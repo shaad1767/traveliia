@@ -1,0 +1,55 @@
+.mylistings-container {
+  padding: 30px;
+}
+
+/* GRID */
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* CARD */
+.listing-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background: white;
+  transition: transform 0.2s;
+}
+
+.listing-card:hover {
+  transform: scale(1.03);
+}
+
+.listing-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* CARD CONTENT */
+.card-content {
+  padding: 15px;
+}
+
+.card-content h3 {
+  margin-bottom: 5px;
+}
+
+.card-buttons {
+  display: flex;
+    gap: 10px;
+  margin-top: 10px;
+}
+
+.card-buttons button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #ff385c;
+  color: white;
+}

@@ -1,0 +1,126 @@
+/* ----------------- Services Section ----------------- */
+.services-section {
+  padding: 80px 20px;
+  background: #f7f9fc;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 50px;
+}
+
+/* ----------------- Section Row ----------------- */
+.section-row {
+  margin-bottom: 50px;
+  text-align: left;
+}
+
+.column-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #222;
+  margin-left: 10px;
+}
+
+/* ----------------- Horizontal Scrollable Row ----------------- */
+.row-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+.row-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.row-container::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.row-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ----------------- Cards ----------------- */
+.service-card,
+.item-card,
+.meal-card {
+  flex: 0 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 15px;
+  width: calc((100% - 5 * 20px) / 6); /* 6 cards per row minus gaps */
+  max-width: 160px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.service-card img,
+.item-card img,
+.meal-card img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.service-card h3,
+.item-card p,
+.meal-card p {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.service-card:hover,
+.item-card:hover,
+.meal-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* ----------------- Footer ----------------- */
+.services-footer {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.services-footer h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #222;
+}
+
+/* ----------------- Responsive ----------------- */
+@media (max-width: 1024px) {
+  .service-card,
+  .item-card,
+  .meal-card {
+    width: 120px;
+    padding: 15px 10px;
+  }
+
+  .service-card img,
+  .item-card img,
+  .meal-card img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .column-title {
+    font-size: 1.3rem;
+    margin-left: 5px;
+  }
+}

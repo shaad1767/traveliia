@@ -1,0 +1,33 @@
+const express = require('express');
+const mongoose = require('mongoose');
+
+const app = express();
+app.use(express.json());
+
+mongoose.connect("mongodb+srv://shaadabbas06:abc123@shaad.jpupmqu.mongodb.net/traveliaDB")
+.then(() => console.log("MongoDB Connected Successfully"))
+.catch(err => console.log(err));
+
+// Schema
+const hotelSchema = new mongoose.Schema({
+  name: String,
+  city: String,
+  location: String,
+  price: Number,
+  guests: Number,
+  images: [String],
+  amenities: [String],
+  description: String,
+});
+
+const Hotel = mongoose.model('Hotel', hotelSchema);
+
+// API to get hotels by city
+app.get('/hotels/:city', async (req, res) => {
+  const { city } = req.params;
+  const hotels = await Hotel.find({ city });
+  res.json(hotels);
+});
+
+app.listen(3000, () => 
+    console.log('Server running on port 3000'));

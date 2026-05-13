@@ -1,0 +1,124 @@
+/* ===== MAIN CONTAINER ===== */
+.help-container {
+  max-width: 1000px;
+  margin: 120px auto 40px auto;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== TITLE ===== */
+.help-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #222;
+}
+
+/* ===== SECTION BOX ===== */
+.help-section {
+  background: #ffffff;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.help-section:hover {
+  transform: translateY(-3px);
+}
+
+/* ===== SECTION HEADINGS ===== */
+.help-section h2 {
+  margin-bottom: 15px;
+  color: #007bff;
+}
+
+/* ===== FAQ ===== */
+.faq {
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.faq h4 {
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.faq p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* ===== CONTACT ===== */
+.help-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.help-section li {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #444;
+}
+
+/* ===== FORM ===== */
+.help-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* INPUT + TEXTAREA */
+.help-form input,
+.help-form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* FOCUS EFFECT */
+.help-form input:focus,
+.help-form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* TEXTAREA HEIGHT */
+.help-form textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+/* BUTTON */
+.help-form button {
+  padding: 12px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* BUTTON HOVER */
+.help-form button:hover {
+  transform: scale(1.03);
+  background: linear-gradient(135deg, #0056b3, #003f7f);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .help-container {
+    margin-top: 100px;
+    padding: 15px;
+  }
+
+  .help-title {
+    font-size: 26px;
+  }
+}

@@ -1,0 +1,17 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+:root {
+  --navbar-height: 240px;
+}
+
+.with-navbar {
+  padding-top: var(--navbar-height);
+}
