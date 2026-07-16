@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./editprofile.css";
+import "./editprofile.css"; // Sahi casing (small 'p') - Force Update Comment
 
 // Yeh line check karegi ki aap local computer par hain ya live server par
 const APP_URL = window.location.hostname === 'localhost' 
@@ -98,7 +98,7 @@ const EditProfile = () => {
     } catch (err) {
       alert(err.message || "Update Failed ❌");
     } finally {
-      loading(false);
+      setLoading(false); // ✅ FIX: 'loading(false)' ko 'setLoading(false)' kiya hai
     }
   };
 
@@ -176,7 +176,7 @@ const EditProfile = () => {
                 ? user.profilePic.startsWith("blob") ||
                   user.profilePic.startsWith("http")
                   ? user.profilePic
-                  : `${APP_URL}/${user.profilePic}` // Yahan dynamic APP_URL lagaya hai
+                  : `${APP_URL}/${user.profilePic}`
                 : "https://ui-avatars.com/api/?name=User&background=random"
             }
             alt="profile"
