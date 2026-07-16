@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./editprofile.css"; // Sahi casing (small 'p') - Force Update Comment
-
+import "./editprofile.css";
 // Yeh line check karegi ki aap local computer par hain ya live server par
 const APP_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5000' 
