@@ -2,6 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css"; // same CSS use kar rahe
 
+// Yeh check karega ki project local par chal raha hai ya Render par
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 export default function Login() {
   const navigate = useNavigate();
 
@@ -13,15 +18,14 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      // Yahan hardcoded URL ki jagah dynamic BASE_URL use kiya hai
+      const res = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
-     // console.log("Login Response:", data); // ✅ yaha kaam karega
-
 
       if (!res.ok) {
         setMessage(data.message);

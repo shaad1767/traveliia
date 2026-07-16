@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./MyBooking.css";
 
+
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 const MyBookings = () => {
   const userId = localStorage.getItem("userId");
   const [bookings, setBookings] = useState([]);
@@ -54,7 +59,7 @@ const MyBookings = () => {
     const fetchBookings = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/bookings/user/${userId}`
+          `${BASE_URL}/api/bookings/user/${userId}`
         );
 
         const data = await res.json();

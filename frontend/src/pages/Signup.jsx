@@ -2,8 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
-export default function Signup() {
+// ✅ Dynamic BASE_URL config
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
 
+export default function Signup() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -25,12 +29,11 @@ export default function Signup() {
   };
 
   const handleSignup = async (e) => {
-
     e.preventDefault();
 
     try {
-
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      // ✅ Hardcoded URL ko dynamic BASE_URL se replace kiya
+      const res = await fetch(`${BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -54,34 +57,25 @@ export default function Signup() {
     } catch (error) {
       setMessage("Server error");
     }
-
   };
 
   return (
-
     <div className="modal-overlay">
       <div className="modal-box">
 
         <h2>Create Account</h2>
 
         <form onSubmit={handleSignup}>
-
           <input name="username" placeholder="Username" className="input-field" onChange={handleChange} required />
-
           <input type="password" name="password" placeholder="Password" className="input-field" onChange={handleChange} required />
-
           <input name="email" placeholder="Email" className="input-field" onChange={handleChange} />
-
           <input name="city" placeholder="City" className="input-field" onChange={handleChange} />
-
           <input name="phone" placeholder="Phone" className="input-field" onChange={handleChange} />
-
           <input name="address" placeholder="Address" className="input-field" onChange={handleChange} />
 
           <button className="continue-btn">
             Create Account
           </button>
-
         </form>
 
         {message && <p>{message}</p>}
@@ -101,6 +95,5 @@ export default function Signup() {
 
       </div>
     </div>
-
   );
 }

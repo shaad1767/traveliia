@@ -2,6 +2,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./PropertyDetails.css";
 
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,162 +26,186 @@ const PropertyDetails = () => {
 
   const userId = localStorage.getItem("userId");
 
+  // Helper function for dynamic image path
+  const getImageUrl = (imgStr) => {
+    if (!imgStr) return "https://via.placeholder.com/600x400";
+    return imgStr.startsWith("http") ? imgStr : `${BASE_URL}/${imgStr}`;
+  };
+
   // Fetch Hotel Details
   useEffect(() => {
-    fetch(`http://localhost:5000/api/hotels/${id}`)
+    fetch(`${BASE_URL}/api/hotels/${id}`)
       .then(res => res.json())
       .then(data => {
-        //console.log("Hotel Data:", data);
         setHotel(data);
-      });
+      })
+      .catch(err => console.log("Error fetching hotel:", err));
   }, [id]);
 
   // Fetch Reviews
   useEffect(() => {
-    fetch(`http://localhost:5000/api/reviews/${id}`)
+    fetch(`${BASE_URL}/api/reviews/${id}`)
       .then(res => res.json())
-      .then(data => setReviews(data));
+      .then(data => setReviews(Array.isArray(data) ? data : []))
+      .catch(err => console.log("Error fetching reviews:", err));
   }, [id]);
 
   // Submit Review
   const submitReview = async () => {
+    if (!comment.trim()) return alert("Please write a comment");
     const token = localStorage.getItem("token");
 
-    await fetch(`http://localhost:5000/api/reviews/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ rating, comment }),
-    });
+    try {
+      const res = await fetch(`${BASE_URL}/api/reviews/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating, comment }),
+      });
 
-    alert("Review Added");
-    window.location.reload();
+      if (res.ok) {
+        alert("Review Added ✅");
+        window.location.reload();
+      } else {
+        alert("Failed to add review");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-
-// Handle Like
+  // Handle Reserve (Razorpay Integration)
   const handleReserve = async () => {
-  if (!checkIn || !checkOut) {
-    alert("Please select dates");
-    return;
-  }
+    if (!checkIn || !checkOut) {
+      alert("Please select dates");
+      return;
+    }
 
-  console.log("💡 Key:", import.meta.env.VITE_RAZORPAY_KEY_ID);
-console.log("💡 Secret:", import.meta.env.VITE_RAZORPAY_SECRET);
+    try {
+      // Step 1: Create order
+      const res = await fetch(`${BASE_URL}/api/payment/create-order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: hotel.price }),
+      });
 
-  try {
-    // Step 1: Create order
-    const res = await fetch("http://localhost:5000/api/payment/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount: hotel.price }),
-    });
+      const order = await res.json();
+      
+      // Step 2: Open Razorpay
+      const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
+      const options = {
+        key: RAZORPAY_KEY,
+        amount: order.amount,
+        currency: "INR",
+        name: "Traveliia",
+        description: hotel.name,
+        order_id: order.id,
 
-    const order = await res.json();
-    console.log("💡 Order from server:", order);
-    
-  // Step 2: Open Razorpay
-    const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
-    console.log( RAZORPAY_KEY); // should print your key
-    const options = {
-      key: RAZORPAY_KEY,
-      amount: order.amount,
-      currency: "INR",
-      name: "Traveliia",
-      description: hotel.name,
-      order_id: order.id,
+        handler: async function (response) {
+          // Step 3: Verify + Save booking
+          const verifyRes = await fetch(
+            `${BASE_URL}/api/payment/verify`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                ...response,
+                hotelId: hotel._id,
+                checkIn,
+                checkOut,
+                price: hotel.price,
+                userId,
+              }),
+            }
+          );
 
-      handler: async function (response) {
-        // Step 3: Verify + Save booking
-        const verifyRes = await fetch(
-          "http://localhost:5000/api/payment/verify",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              ...response,
-              hotelId: hotel._id,
-              checkIn,
-              checkOut,
-              price: hotel.price,
-              userId,
-            }),
+          const data = await verifyRes.json();
+          if (data.success) {
+            alert("Booking Confirmed 🎉");
+            navigate("/MyBooking");
+          } else {
+            alert("Payment Verification Failed ❌");
           }
-        );
-        console.log("💡 Verify response raw:", verifyRes);
-
-
-        const data = await verifyRes.json();
-        console.log("💡 Verify response data:", data);
-        if (data.success) {
-          alert("Booking Confirmed 🎉");
-          navigate("/MyBooking");
-        } else {
-          alert("Payment Failed ❌");
+        },
+        prefill: {
+          name: localStorage.getItem("username") || "",
+        },
+        theme: {
+          color: "#3399cc",
         }
-      },
-    };
+      };
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+      const rzp = new window.Razorpay(options);
+      rzp.open();
 
-  } catch (err) {
-    console.log(err);
-    alert("Something went wrong");
-  }
-};
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong with the payment request");
+    }
+  };
 
   // Delete Hotel
   const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this listing?")) return;
     const token = localStorage.getItem("token");
 
-    await fetch(`http://localhost:5000/api/hotels/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      await fetch(`${BASE_URL}/api/hotels/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    alert("Hotel Deleted");
-    navigate("/Home");
+      alert("Hotel Deleted");
+      navigate("/Home");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  // Loading
-  if (!hotel) return <h2>Loading...</h2>;
+  if (!hotel) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
-
-
+  // Safe Check for Owner ID mapping
+  const hotelOwnerId = hotel.owner?._id || hotel.owner;
+  const isOwner = hotelOwnerId && hotelOwnerId.toString() === userId;
 
   return (
     <div className="details-container">
 
-      {/* Image Grid */}
+      {/* Image Grid with Safe Dynamic Paths */}
       <div className="image-grid">
         <img
-          src={hotel.images?.[0]}
+          src={getImageUrl(hotel.images?.[0])}
           className="main-img"
-          onClick={() => setSelectedImg(hotel.images?.[0])}
+          alt={hotel.name}
+          onClick={() => setSelectedImg(getImageUrl(hotel.images?.[0]))}
         />
 
         <div className="side-imgs">
           {hotel.images?.slice(1, 5).map((img, i) => (
-            <img key={i} src={img} onClick={() => setSelectedImg(img)} />
+            <img 
+              key={i} 
+              src={getImageUrl(img)} 
+              alt="side-view"
+              onClick={() => setSelectedImg(getImageUrl(img))} 
+            />
           ))}
         </div>
       </div>
 
-      {/* Fullscreen Image */}
+      {/* Fullscreen Image Overlay */}
       {selectedImg && (
         <div className="fullscreen" onClick={() => setSelectedImg(null)}>
-          <img src={selectedImg} />
+          <img src={selectedImg} alt="fullscreen-preview" />
         </div>
       )}
 
-      {/* Content */}
+      {/* Content Layout */}
       <div className="content">
 
         {/* Left Section */}
@@ -190,42 +218,41 @@ console.log("💡 Secret:", import.meta.env.VITE_RAZORPAY_SECRET);
           <hr />
           <p>Max Guests: {hotel.maxGuests}</p>
           <hr />
-          <p>Owner id: {hotel.owner?.fullName || hotel.owner?.username || "Unknown"}</p>
+          <p>Owner: {hotel.owner?.fullName || hotel.owner?.username || "Unknown"}</p>
           <hr />
-          <address>Address:  {hotel.location}</address>
+          <address>Address: {hotel.location}</address>
           <hr />
           <p>Contact: {hotel.owner?.email || "Not provided"}</p>
 
-          {/* Owner Buttons */}
-          {hotel.owner?.toString() === userId && (
+          {/* Owner Buttons Check Fixed */}
+          {isOwner && (
             <div className="owner-buttons">
               <button onClick={() => navigate(`/edit/${hotel._id}`)}>
                 Edit
               </button>
-
-              <button onClick={handleDelete}>
+              <button onClick={handleDelete} className="delete-btn">
                 Delete
               </button>
             </div>
           )}
 
-          {/* Map */}
+          {/* Map Frame */}
           <div className="map">
             <iframe
-              src={`https://www.google.com/maps?q=${hotel.city}&output=embed`}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(hotel.city)}&output=embed`}
               width="100%"
               height="300"
               style={{ border: 0 }}
               loading="lazy"
+              title="hotel-location"
             ></iframe>
           </div>
           <hr />
 
-          {/* Reviews */}
+          {/* Review Input Section */}
           <div className="review">
             <h3>Reviews</h3>
-
-            <select onChange={(e) => setRating(e.target.value)}>
+            <select onChange={(e) => setRating(Number(e.target.value))}>
               <option value="5">5 ⭐</option>
               <option value="4">4 ⭐</option>
               <option value="3">3 ⭐</option>
@@ -235,48 +262,49 @@ console.log("💡 Secret:", import.meta.env.VITE_RAZORPAY_SECRET);
 
             <textarea
               placeholder="Write review..."
+              value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
-
             <button onClick={submitReview}>Submit Review</button>
-
-            
           </div>
 
-          {/* Reviews Grid */}
-            <div className="review-grid">
-              {reviews.map((r) => (
-                <div key={r._id} className="review">
-                  <h4>{r.user?.name}</h4>
+          {/* Reviews List */}
+          <div className="review-grid">
+            {reviews.length > 0 ? (
+              reviews.map((r) => (
+                <div key={r._id} className="review-card">
+                  <h4>{r.user?.username || r.user?.name || "Anonymous"}</h4>
                   <p>Rating: ⭐ {r.rating}</p>
                   <p>{r.comment}</p>
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              <p>No reviews yet.</p>
+            )}
+          </div>
         </div>
 
         {/* Right Price Card */}
         <div className="price-card">
-          <h2>${hotel.price} / night</h2>
+          <h2>₹ {hotel.price} / night</h2>
 
-          <div className="booking">
+          <div className="booking-inputs">
             <input
-                type="date"
-                value={checkIn}
-                onChange={(e) => setCheckIn(e.target.value)}
+              type="date"
+              value={checkIn}
+              onChange={(e) => setCheckIn(e.target.value)}
             />
-
-          <input
+            <input
               type="date"
               value={checkOut}
               onChange={(e) => setCheckOut(e.target.value)}
-          />
+            />
           </div>
 
-            <button className="reserve"  onClick={handleReserve}>
-              Reserve
-            </button>
-          </div>
+          <button className="reserve" onClick={handleReserve}>
+            Reserve
+          </button>
+        </div>
 
         {/* Amenities Card */}
         <div className="amenities-card">

@@ -1,22 +1,23 @@
-
-
-// export default Navbar;
+// src/components/Navbar.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+// ... baaki imports waise hi rehne dein ...
 import logo from "../assets/logo.png";
 import homeIcon from "../assets/home.png";
 import balloonIcon from "../assets/balloon.png";
 import pricingIcon from "../assets/pricing.png";
-
 import "./Navbarhome.css";
 import Pricing from "./Pricing";  
 import Services from "./services";
- 
+
+// Ye line add karein
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
 
 const Navbar = () => {
   const navigate = useNavigate();
-
   const [open, setOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
 
@@ -32,14 +33,12 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  // ✅ Full handleSearch with fetch
   const handleSearch = async () => {
     if (!location.trim()) {
       alert("Please enter a city");
       return;
     }
 
-    // Build query object
     const queryObj = { city: location.trim(), guests: Number(guests) || 1 };
     if (checkIn) queryObj.checkIn = checkIn;
     if (checkOut) queryObj.checkOut = checkOut;
@@ -47,8 +46,8 @@ const Navbar = () => {
     const query = new URLSearchParams(queryObj).toString();
 
     try {
-      // Fetch from backend /api/hotels/search
-      const res = await fetch(`http://localhost:5000/api/hotels/search?${query}`);
+      // Yahan BASE_URL use kiya hai
+      const res = await fetch(`${BASE_URL}/api/hotels/search?${query}`);
       if (!res.ok) {
         throw new Error("Failed to fetch hotels");
       }
@@ -56,7 +55,6 @@ const Navbar = () => {
 
       console.log("Hotels fetched:", data);
 
-      // Navigate to Hotels page with query + pass data in state
       navigate(`/searchHotel?${query}`, { state: { hotels: data } });
     } catch (err) {
       console.error("Search error:", err);
@@ -65,9 +63,9 @@ const Navbar = () => {
   };
 
   return (
+    // ... aapka pura return block same rahega ...
     <>
       <nav className="navbar">
-
         {/* Logo */}
         <div className="logo">
           <Link to="/">
@@ -138,9 +136,7 @@ const Navbar = () => {
       {open && (
         <div className="sidebar">
           <div className="close-btn" onClick={() => setOpen(false)}>✕</div>
-
           <h5 className="menu">Traveliia</h5>
-
           <p onClick={() => navigate("/profile")}>👤 Profile</p>
           <hr />
           <p onClick={() => navigate("/MyBooking")}>📖 My Bookings</p>

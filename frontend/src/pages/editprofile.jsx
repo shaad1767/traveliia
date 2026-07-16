@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./editProfile.css";
 
+// Yeh line check karegi ki aap local computer par hain ya live server par
+const APP_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
+const BASE_URL = `${APP_URL}/api/users`;
+
 const EditProfile = () => {
   const userId = localStorage.getItem("userId");
 
@@ -18,8 +25,6 @@ const EditProfile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState("");
-
-  const BASE_URL = "http://localhost:5000/api/users";
 
   // ✅ FETCH USER
   useEffect(() => {
@@ -93,7 +98,7 @@ const EditProfile = () => {
     } catch (err) {
       alert(err.message || "Update Failed ❌");
     } finally {
-      setLoading(false);
+      loading(false);
     }
   };
 
@@ -101,7 +106,6 @@ const EditProfile = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
-
   };
 
   // ✅ IMAGE UPLOAD
@@ -122,7 +126,6 @@ const EditProfile = () => {
 
       if (!res.ok) throw new Error(data.message);
 
-      // ✅ FIX: use backend response
       setUser((prev) => ({
         ...prev,
         profilePic: data.profilePic,
@@ -166,7 +169,6 @@ const EditProfile = () => {
 
       {/* PROFILE IMAGE */}
       <div className="edit-item">
-
         <div className="image-section">
           <img
             src={
@@ -174,8 +176,8 @@ const EditProfile = () => {
                 ? user.profilePic.startsWith("blob") ||
                   user.profilePic.startsWith("http")
                   ? user.profilePic
-                  : `http://localhost:5000/${user.profilePic}`
-                :   "https://ui-avatars.com/api/?name=User&background=random"
+                  : `${APP_URL}/${user.profilePic}` // Yahan dynamic APP_URL lagaya hai
+                : "https://ui-avatars.com/api/?name=User&background=random"
             }
             alt="profile"
           />

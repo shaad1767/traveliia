@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -9,7 +13,7 @@ const Profile = () => {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/users/profile/${userId}`)
+    fetch(`${BASE_URL}/api/users/profile/${userId}`)
       .then(res => res.json())
       .then(data => setUser(data))
       .catch(err => console.log(err));

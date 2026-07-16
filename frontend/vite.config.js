@@ -16,8 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
-        changeOrigin: true,
+          target: isLocal ? "http://localhost:5000" : "https://traveliia.onrender.com",        changeOrigin: true,
         secure: false
       }
     }

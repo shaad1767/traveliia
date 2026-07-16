@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import "./AddListing.css";
 import { useNavigate } from "react-router-dom";
 
+// Yeh line check karegi ki aap local computer par hain ya live server par
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 export default function AddListing() {
   const navigate = useNavigate();
 
@@ -29,7 +34,6 @@ export default function AddListing() {
 
     console.log("Images:", images);   // 👈 yahan print karo
 
-
     const data = new FormData();
 
     data.append("name", formData.name);
@@ -38,14 +42,17 @@ export default function AddListing() {
     data.append("price", formData.price);
     data.append("maxGuests", formData.maxGuests);
     data.append("description", formData.description);
+    // Agar amenities ko backend par bhejna hai toh ye line bhi use kar sakte hain:
+    data.append("amenities", formData.amenities);
 
     for (let i = 0; i < images.length; i++) {
        data.append("images", images[i]);
-   }
+    }
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:5000/api/hotels/create", {
+    // Yahan live string ki jagah dynamic BASE_URL use kiya hai
+    const res = await fetch(`${BASE_URL}/api/hotels/create`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
@@ -56,14 +63,11 @@ export default function AddListing() {
     const result = await res.json();
     alert(result.message);
 
-    
-  // ✅ Redirect to Home page
-  if (res.ok) {
-    navigate("/Home"); // "/" is your Home route
-  }
+    // ✅ Redirect to Home page
+    if (res.ok) {
+      navigate("/Home"); // "/" is your Home route
+    }
   };
-
-  
 
   return (
     <div className="add-listing">

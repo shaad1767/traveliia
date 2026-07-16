@@ -4,6 +4,10 @@ import axios from "axios";
 import "./HotelsList.css";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 const HotelsList = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +17,7 @@ const HotelsList = () => {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/hotels");
+        const res = await axios.get(`${BASE_URL}/api/hotels`);
        // console.log("Fetched hotels:", res.data);  // Debug log
         setHotels(res.data);
         setLoading(false);

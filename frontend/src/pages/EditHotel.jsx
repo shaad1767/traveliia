@@ -1,6 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+// Yeh line check karegi ki aap local computer par hain ya live server par
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 const EditHotel = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -15,7 +20,8 @@ const EditHotel = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/hotels/${id}`)
+    // Yahan fetch mein dynamic BASE_URL use kiya hai
+    fetch(`${BASE_URL}/api/hotels/${id}`)
       .then(res => res.json())
       .then(data => setHotel(data));
   }, [id]);
@@ -29,7 +35,8 @@ const EditHotel = () => {
 
     const token = localStorage.getItem("token");
 
-    await fetch(`http://localhost:5000/api/hotels/${id}`, {
+    // Yahan bhi PUT request mein dynamic BASE_URL lagaya hai
+    await fetch(`${BASE_URL}/api/hotels/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyListings.css";
 
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 const MyListings = () => {
   const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
@@ -11,7 +15,7 @@ const MyListings = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch("http://localhost:5000/api/hotels/myhotels", {
+        const res = await fetch(`${BASE_URL}/api/hotels/myhotels`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

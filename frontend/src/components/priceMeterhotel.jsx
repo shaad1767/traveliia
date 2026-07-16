@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./priceMeterhotel.css";
 
+// Yeh line check karegi ki aap local computer par hain ya live server par
+const BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://traveliia.onrender.com';
+
 const Hotels = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,8 +27,9 @@ const Hotels = () => {
         console.log("Frontend min:", min);
         console.log("Frontend max:", max);
 
+        // Yahan live string ki jagah dynamic BASE_URL use kiya hai
         const res = await fetch(
-          `http://localhost:5000/api/hotels/filter?min=${min}&max=${max}`
+          `${BASE_URL}/api/hotels/filter?min=${min}&max=${max}`
         );
 
         if (!res.ok) {
