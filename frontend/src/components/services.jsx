@@ -1,5 +1,5 @@
 import React from "react";
-import "./Services.css";
+import "./services.css";
 
 const servicesList = [
   { name: "Photography", img: "https://img.icons8.com/emoji/96/camera-emoji.png" },
