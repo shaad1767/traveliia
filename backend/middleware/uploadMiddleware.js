@@ -1,7 +1,7 @@
 import multer from "multer";
 
 import pkg from 'multer-storage-cloudinary';
-const { CloudinaryStorage } = pkg;import cloudinary from "../config/cloudinary.js";
+const CloudinaryStorage = pkg.CloudinaryStorage || pkg.default?.CloudinaryStorage || pkg;import cloudinary from "../config/cloudinary.js";
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
