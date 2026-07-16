@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./MyBooking.css";
+import "./Mybooking.css";
 
 
 const BASE_URL = window.location.hostname === 'localhost' 

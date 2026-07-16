@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./editProfile.css";
+import "./editprofile.css";
 
 // Yeh line check karegi ki aap local computer par hain ya live server par
 const APP_URL = window.location.hostname === 'localhost' 

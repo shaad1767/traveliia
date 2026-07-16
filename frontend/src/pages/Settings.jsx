@@ -1,5 +1,5 @@
 import React from "react";
-import "./settings.css";
+import "./Settings.css";
 
 const Settings = () => {
   const handleLogout = () => {
