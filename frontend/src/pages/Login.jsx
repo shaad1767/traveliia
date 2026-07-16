@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Signup.css"; // same CSS use kar rahe
-
-// Yeh check karega ki project local par chal raha hai ya Render par
+import "./signup.css"; // Sab small letters mein// Yeh check karega ki project local par chal raha hai ya Render par
 const BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5000' 
   : 'https://traveliia.onrender.com';

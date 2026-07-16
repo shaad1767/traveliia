@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Signup.css";
-
+import "./signup.css"; // Sab small letters mein
 // ✅ Dynamic BASE_URL config
 const BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5000' 
