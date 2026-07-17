@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import "./searchHotel.css";
+import "./search.Hotel.css";
 
 const HotelsPage = () => {
   const location = useLocation();
