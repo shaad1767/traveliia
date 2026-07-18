@@ -7,7 +7,7 @@ const HotelsPage = () => {
   const navigate = useNavigate();
 
   const handleViewDetails = (hotelId) => {
-    navigate(`/property/${hotelId}`);
+    navigate(`/propertyDetails/${hotelId}`);
   };
 
   return (

@@ -30,7 +30,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   const handleSearch = async () => {
@@ -85,15 +85,18 @@ const Navbar = () => {
             <span>Home</span>
           </Link>
 
-          <Link to="/services" className="balloon-link">
-            <img src={balloonIcon} alt="Balloon" className="balloon-icon" />
-            <span>Balloon</span>
-          </Link>
 
-          <div className="pricing-link" onClick={() => setPriceOpen(true)}>
+        <div className="pricing-link" onClick={() => setPriceOpen(true)}>
             <img src={pricingIcon} alt="pricing" className="pricing-icon" />
             <span>Pricing</span>
           </div>
+
+          <Link to="/services" className="balloon-link">
+            <img src={balloonIcon} alt="Balloon" className="balloon-icon" />
+            <span>About</span>
+          </Link>
+
+          
         </div>
 
         {/* Search Bar */}
@@ -141,10 +144,10 @@ const Navbar = () => {
           <hr />
           <p onClick={() => navigate("/MyBooking")}>📖 My Bookings</p>
           <hr />
-          <p onClick={() => navigate("/Addlisting")}>🏠 AddListing</p>
+          {/* <p onClick={() => navigate("/Addlisting")}>🏠 AddListing</p>
           <hr />
           <p onClick={() => navigate("/Mylistings")}>📖 My Listings</p>
-          <hr />
+          <hr /> */}
           <p onClick={() => navigate("/help")}>❓ Help</p>
           <hr />
           <p className="logout" onClick={handleLogout}>🚪 Logout</p>

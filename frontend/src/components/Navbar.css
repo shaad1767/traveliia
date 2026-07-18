@@ -1,233 +1,221 @@
-/* Logo at top-right */
-.logo-image {
-  position: absolute;   /* position relative to page or navbar */
-  top: 20px;            /* distance from top */
-  left: 20px;          /* distance from left */
-  width: 80px;          /* adjust as needed */
-  height: auto;
-  cursor: pointer;
-}
-
-/* Ensure image scales properly */
-.logo-image img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-}
-
-
-/* Navbar container */
+/* ==========================================================================
+   1. DESKTOP STYLES (Default Layout)
+   ========================================================================== */
 .navbar {
-  position: fixed;      /* fixed on top */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: black;
-  height: 240px;        /* navbar height */
-  display: flex;
-  flex-direction: column; /* column: menu above search bar */
-  align-items: center;   /* horizontal center */
-  justify-content: flex-start; /* start from top */
   z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  padding-top: 20px; /* space from top */
+  box-sizing: border-box;
+  height: 230px;
 }
 
-/* Menu */
-.menu {
-  display: flex;
-  gap: 100px; /* spacing between menu items */
-  font-weight: 600;
-  margin-top: 5px; /* space from top of page */
-
-}
-
-/* Search Bar container */
-.search-bar {
-  display: flex;
-  margin-top: 35px; /* distance from menu */
-  border: 1px solid #ddd;
-  border-radius: 50px;
-  padding: 5px 5px;
-  max-width: 700px;
-  width: 80%;       /* responsive width */
-  background-color: #fff;
-}
-
-/* Inputs */
-.search-input {
-  border: none;
-  padding: 6px 10px;
-  border-radius: 30px;
-  font-size: 14px;
-  outline: none;
-}
-
-.search-input.location {
-  flex: 2;
-}
-
-.search-input.date, 
-.search-input.guests {
-  flex: 1;
-  max-width: 120px;
-}
-
-/* Search Button */
-.search-button {
-  background-color: #ff385c;
-  color: #fff;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.2s;
-}
-
-.search-button:hover {
-  background-color: #e03150;
-}
-
-/* Signup */
-.navbar-signup {
-  display: flex;
-  gap: 20px;
-  font-weight: 400;
+.logo-container {
   position: absolute;
   top: 20px;
-  right: 30px;
-}
-
-.signup p {
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.signup p:hover {
-  color: #ff385c;
-}
-
-/* Home link container */
-.home-link {
-  display: flex;           /* icon and text in a row */
-  align-items: center;     /* vertically center icon with text */
-  gap: 5px;                /* space between icon and "Home" text */
-  text-decoration: none;   /* remove underline */
-  color: inherit;          /* inherit text color from navbar */
-  font-weight: 600;        /* bold text */
-  cursor: pointer;
-  transition: color 0.2s;  /* smooth hover effect */
-}
-/* underline effect on hover */
-.home-link::after {
-  content: "";                  /* pseudo-element for line */
-  position: absolute;
-  left: 0;
-  bottom: -2px;         /* line slightly below the link */
-  height: 2px;          /* thickness of the line */                                    
-  background-color: black;
-  opacity: 0;       /* line color */
-  transition: width 0.3s ease;  /* smooth animation */
-}
-
-/* expand underline on hover */
-.home-link:hover::after {
-  width: 1;                  /* full width under link */
-}
-
-
-
-
-/* Home icon image */
-.home-icon {
-  height: 64px;            /* icon height */
-  width: 64px;             /* icon width */
-}
-
-/* Optional: scale icon on hover */
-.home-link:hover .home-icon {
-  transform: scale(1.1);
-  transition: transform 0.2s;
-}
-
-
-
-
-
-
-/* Experience menu item with balloon */
-.balloon-link {
+  left: 20px;
   display: flex;
   align-items: center;
-  gap: 8px;            /* space between icon and text */
-  font-weight: 600;
-  cursor: pointer;
-  padding: 5px 0;      /* vertical spacing */
-  transition: color 0.2s;
-    text-decoration: none;  /* remove underline */
-  color: inherit;       /* inherit text color */
-
+  min-width: 150px;
 }
 
+.logo-img {
+  height: 60px;
+  width: auto;
+}
 
+.center-block {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 700px;
+}
 
-/* Balloon icon inside the link */
-.balloon-link .balloon-icon {
-  width: 50px;          /* size similar to Home icon */
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #444444;
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.icon {
+  width: 50px;
   height: 50px;
   object-fit: contain;
-  display: inline-block;
 }
 
-/* Optional floating animation for the balloon */
-.balloon-link .balloon-icon {
-  animation: float 4s ease-in-out infinite alternate;
-}
-
-/* @keyframes float {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-3px); }
-} */
-
-
-/* Optional: scale icon on hover */
-.balloon-link:hover .balloon-icon {
-  transform: scale(1.1);
-  transition: transform 0.2s;
-}
-
-
-/* Pricing menu item with its icon */
-.pricing-link {
+.search-row {
   display: flex;
   align-items: center;
-  gap: 8px;            
-  font-weight: 600;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 35px;
+  padding: 6px 10px 6px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #333333;
+  padding: 8px 10px;
+  background: transparent;
+}
+
+.input-location {
+  flex: 1.5;
+  border-right: 1px solid #eeeeee;
+}
+
+.input-date {
+  width: 110px;
+  border-right: 1px solid #eeeeee;
+}
+
+.input-guests {
+  width: 45px;
+  text-align: center;
+}
+
+.search-submit-btn {
+  background-color: #ff385c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
-  padding: 5px 0;      
-  transition: color 0.2s;
-  text-decoration: none;  /* remove underline */
-  color: black;           /* text color */
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Icon inside Pricing link */
-.pricing-link .pricing-icon {
-  width: 60px;          
-  height: 60px;
-  object-fit: contain;
-  display: inline-block;
+.right-block {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  min-width: 250px;
 }
 
-
-/* Optional floating animation if you want */
-.pricing-link .pricing-icon.float {
-  animation: float 2s ease-in-out infinite alternate;
+.host-btn {
+  background: transparent;
+  border: none;
+  color: #333333;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 12px;
 }
 
+.action-btn {
+  background-color: #ff385c;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+}
 
-/* Optional: scale icon on hover */
-.pricing-link:hover .pricing-icon {
-  transform: scale(1.1);
-  transition: transform 0.2s;
+/* ==========================================================================
+   2. MOBILE RESPONSIVE STYLES (Screen size 768px or less)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .navbar {
+    height: auto;
+    flex-direction: column;
+    padding: 15px;
+    position: relative; /* Fixed se normal collapse layout ke liye */
+  }
+
+  .logo-container {
+    position: static; /* Absolute hatakar normal line me lane ke liye */
+    margin-bottom: 15px;
+    justify-content: center;
+  }
+
+  .center-block {
+    position: static;
+    transform: none;
+    gap: 15px;
+    max-width: 100%;
+  }
+
+  .menu-row {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .link-item {
+    margin-top: 0;
+    font-size: 14px;
+  }
+
+  .icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .search-row {
+    flex-direction: column; /* Inputs ko ek ke niche ek lane ke liye */
+    border-radius: 15px;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .input {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px 0;
+    text-align: left !important;
+  }
+
+  .search-submit-btn {
+    width: 100%;
+    border-radius: 8px;
+    height: 40px;
+    margin-left: 0;
+  }
+
+  .right-block {
+    position: static;
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+    min-width: unset;
+  }
 }

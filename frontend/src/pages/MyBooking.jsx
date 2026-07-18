@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Mybooking.css";
 
-
 const BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5000' 
   : 'https://traveliia.onrender.com';
@@ -11,70 +10,52 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 DUMMY DATA (fallback)
   const dummyBookings = [
     {
-      _id: 1,
+      _id: "1",
       hotelName: "Grand Palace Hotel",
       price: 2500,
       status: "Confirmed",
       paymentId: "pay_123456",
       checkIn: "2026-04-10",
       checkOut: "2026-04-12",
-      image: "https://source.unsplash.com/400x300/?hotel",
+      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&auto=format&fit=crop",
     },
     {
-      _id: 2,
+      _id: "2",
       hotelName: "Sea View Resort",
       price: 3200,
       status: "Confirmed",
       paymentId: "pay_789101",
       checkIn: "2026-04-15",
       checkOut: "2026-04-18",
-      image: "https://source.unsplash.com/400x300/?resort",
+      image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500&auto=format&fit=crop",
     },
     {
-      _id: 3,
+      _id: "3",
       hotelName: "Mountain Stay",
       price: 1800,
       status: "Pending",
       paymentId: "pay_112233",
       checkIn: "2026-04-20",
       checkOut: "2026-04-22",
-      image: "https://source.unsplash.com/400x300/?mountain,hotel",
-    },
-    {
-      _id: 4,
-      hotelName: "City Lights Inn",
-      price: 2200,
-      status: "Confirmed",
-      paymentId: "pay_445566",
-      checkIn: "2026-04-25",
-      checkOut: "2026-04-27",
-      image: "https://source.unsplash.com/400x300/?city,hotel",
+      image: "https://images.unsplash.com/photo-1486591978090-58e619d37fe7?w=500&auto=format&fit=crop",
     },
   ];
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await fetch(
-          `${BASE_URL}/api/bookings/user/${userId}`
-        );
-
+        const res = await fetch(`${BASE_URL}/api/bookings/user/${userId}`);
         const data = await res.json();
 
-        // ✅ REAL DATA AAYA TO USE KARO
         if (data?.bookings && data.bookings.length > 0) {
           setBookings(data.bookings);
         } else {
-          // ❌ OTHERWISE DUMMY SHOW KARO
           setBookings(dummyBookings);
         }
-
       } catch (err) {
         console.log(err);
-        // ❌ ERROR ME BHI DUMMY SHOW
         setBookings(dummyBookings);
       } finally {
         setLoading(false);
@@ -84,47 +65,62 @@ const MyBookings = () => {
     fetchBookings();
   }, [userId]);
 
-  if (loading) return <h3 style={{ textAlign: "center" }}>Loading...</h3>;
+  if (loading) {
+    return (
+      <div className="booking-loading-wrapper">
+        <div className="booking-spinner"></div>
+        <p>Fetching your reservations...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mybooking-container">
-
-      <h2 className="mybooking-title">My Bookings</h2>
+      <div className="mybooking-header">
+        <h2>My Bookings</h2>
+        <p className="subtitle">Manage your upcoming trips and reservation payments.</p>
+      </div>
 
       <div className="booking-grid">
-
         {bookings.map((b) => (
           <div key={b._id} className="booking-card">
-
-            <img src={b.image} alt="hotel" />
-
-            <div className="booking-content">
-
-              <h3>{b.hotelName}</h3>
-
-              <p className="price">₹ {b.price}</p>
-
-              <p className="dates">
-                {b.checkIn} → {b.checkOut}
-              </p>
-
-              <span className="status">
+            <div className="image-wrapper">
+              <img src={b.image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&auto=format&fit=crop"} alt="hotel" />
+              <span className={`status-badge ${b.status?.toLowerCase()}`}>
                 {b.status}
               </span>
-
-              <p className="payment">
-                🧾 {b.paymentId}
-              </p>
-
-              <button className="cancel-btn">
-                Cancel Booking
-              </button>
-
             </div>
 
+            <div className="booking-content">
+              <h3 className="hotel-title">{b.hotelName}</h3>
+              
+              <div className="booking-meta-row">
+                <span className="price-tag">₹{b.price} <small>/ night</small></span>
+              </div>
+
+              <div className="date-box">
+                <div className="date-element">
+                  <span className="date-label">CHECK-IN</span>
+                  <span className="date-val">{b.checkIn}</span>
+                </div>
+                <div className="date-divider">→</div>
+                <div className="date-element">
+                  <span className="date-label">CHECK-OUT</span>
+                  <span className="date-val">{b.checkOut}</span>
+                </div>
+              </div>
+
+              <div className="payment-footer">
+                <span className="receipt-icon">🧾</span>
+                <span className="payment-id">{b.paymentId}</span>
+              </div>
+
+              <button className="cancel-btn" onClick={() => alert("Cancellation request submitted.")}>
+                Cancel Reservation
+              </button>
+            </div>
           </div>
         ))}
-
       </div>
     </div>
   );

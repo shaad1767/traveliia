@@ -178,25 +178,26 @@ const PropertyDetails = () => {
     <div className="details-container">
 
       {/* Image Grid with Safe Dynamic Paths */}
-      <div className="image-grid">
-        <img
-          src={getImageUrl(hotel.images?.[0])}
-          className="main-img"
-          alt={hotel.name}
-          onClick={() => setSelectedImg(getImageUrl(hotel.images?.[0]))}
-        />
+      {/* Image Grid with Safe Dynamic Paths */}
+        <div className="image-grid">
+          <img
+            src={hotel.images?.[0] || "placeholder-image-url.jpg"} // 👈 getImageUrl hata kar direct path lagaya
+            className="main-img"
+            alt={hotel.name}
+            onClick={() => setSelectedImg(hotel.images?.[0])} // 👈 Direct path
+          />
 
-        <div className="side-imgs">
-          {hotel.images?.slice(1, 5).map((img, i) => (
-            <img 
-              key={i} 
-              src={getImageUrl(img)} 
-              alt="side-view"
-              onClick={() => setSelectedImg(getImageUrl(img))} 
-            />
-          ))}
+          <div className="side-imgs">
+            {hotel.images?.slice(1, 5).map((img, i) => (
+              <img 
+                key={i} 
+                src={img} // 👈 Yahan bhi direct image string link use kiya
+                alt="side-view"
+                onClick={() => setSelectedImg(img)} 
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
       {/* Fullscreen Image Overlay */}
       {selectedImg && (

@@ -9,7 +9,7 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import AddListing from "./pages/Addlisting";
-import PropertyCard from "./pages/PropertyDetails";
+import PropertyDetails from "./pages/PropertyDetails";
 import EditHotel from "./pages/EditHotel";
 import MyListings from "./pages/MyListings";
 import Pricing from "./components/Pricing";
@@ -41,7 +41,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/Addlisting" element={<AddListing />} />
-          <Route path="/PropertyDetails/:id" element={<PropertyCard />} />
+          <Route path="/PropertyDetails/:id" element={<PropertyDetails />} />
           <Route path="/edit/:id" element={<EditHotel />} />
           <Route path="/mylistings" element={<MyListings />} />
           <Route path="/Pricing" element={<Pricing />} />

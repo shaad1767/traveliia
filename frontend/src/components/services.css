@@ -1,126 +1,200 @@
-/* ----------------- Services Section ----------------- */
-.services-section {
-  padding: 80px 20px;
-  background: #f7f9fc;
+/* Container reset & configuration */
+.about-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333333;
+  line-height: 1.6;
+  margin-top: 100px; /* Adjust based on navbar height */
+  padding: 0;
+}
+
+/* Hero Section */
+.about-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), 
+              url('https://images.unsplash.com/photo-1455587734955-081b22074882?q=80&w=1920') no-repeat center center/cover;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-.section-title {
-  font-size: 2.5rem;
-  font-weight: bold;
+.hero-overlay h1 {
+  color: #ffffff;
+  font-size: 48px;
   margin-bottom: 10px;
+  font-weight: 700;
 }
 
-.section-subtitle {
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 50px;
+.hero-overlay p {
+  color: #f0f0f0;
+  font-size: 18px;
+  max-width: 600px;
 }
 
-/* ----------------- Section Row ----------------- */
-.section-row {
-  margin-bottom: 50px;
+/* Vision / Intro Section */
+.about-vision {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-vision h2 {
+  font-size: 32px;
+  color: #111111;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.about-vision p {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+/* Stats Counter Section */
+.about-stats {
+  background-color: #111111;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 5px 20px;
+  text-align: center;
+}
+
+.stat-card {
+  padding: 20px;
+  min-width: 200px;
+}
+
+.stat-card h3 {
+  font-size: 42px;
+  color: #ff385c;
+  margin: 0 0 5px 0;
+}
+
+.stat-card p {
+  font-size: 14px;
+  color: #cccccc;
+  margin: 0;
+}
+
+/* Features Section */
+.about-features {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.about-features h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.features-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  max-width: 120px; /* Will map dynamically via flex layout */
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
   text-align: left;
 }
 
-.column-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+.feature-item h4 {
+  font-size: 20px;
+  color: #111111;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.feature-item p {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+/* Call to Action (CTA) Section */
+.about-cta {
+  padding: 80px 20px;
+  text-align: center;
+  background: #000000;
+  color: white;
+}
+
+.about-cta h2 {
+  font-size: 36px;
   margin-bottom: 15px;
-  color: #222;
-  margin-left: 10px;
 }
 
-/* ----------------- Horizontal Scrollable Row ----------------- */
-.row-container {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  padding-bottom: 10px;
-  scroll-behavior: smooth;
+.about-cta p {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #bbbbbb;
 }
 
-.row-container::-webkit-scrollbar {
-  height: 8px;
-}
-
-.row-container::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
-
-.row-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* ----------------- Cards ----------------- */
-.service-card,
-.item-card,
-.meal-card {
-  flex: 0 0 auto;
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px 15px;
-  width: calc((100% - 5 * 20px) / 6); /* 6 cards per row minus gaps */
-  max-width: 160px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
-}
-
-.service-card img,
-.item-card img,
-.meal-card img {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 10px;
-}
-
-.service-card h3,
-.item-card p,
-.meal-card p {
+.cta-btn {
+  background-color: #ff385c;
+  color: white;
+  border: none;
+  padding: 14px 35px;
+  font-size: 16px;
   font-weight: 600;
-  color: #333;
-  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
-.service-card:hover,
-.item-card:hover,
-.meal-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+.cta-btn:hover {
+  background-color: #e03150;
+  transform: scale(1.05);
 }
 
-/* ----------------- Footer ----------------- */
-.services-footer {
-  margin-top: 60px;
-  text-align: center;
-}
-
-.services-footer h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #222;
-}
-
-/* ----------------- Responsive ----------------- */
-@media (max-width: 1024px) {
-  .service-card,
-  .item-card,
-  .meal-card {
-    width: 120px;
-    padding: 15px 10px;
+/* ==========================================================================
+   Mobile Responsive Rules
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .about-container {
+    margin-top: 0; /* Auto flow structure */
   }
 
-  .service-card img,
-  .item-card img,
-  .meal-card img {
-    width: 50px;
-    height: 50px;
+  .hero-overlay h1 {
+    font-size: 32px;
   }
 
-  .column-title {
-    font-size: 1.3rem;
-    margin-left: 5px;
+  .hero-overlay p {
+    font-size: 14px;
+    padding: 0 15px;
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px 20px;
+  }
+
+  .features-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature-item {
+    width: 90%;
+  }
+
+  .about-cta h2 {
+    font-size: 26px;
   }
 }

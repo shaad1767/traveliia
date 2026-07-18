@@ -1,90 +1,102 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import homeIcon from "../assets/home.png";
 import balloonIcon from "../assets/balloon.png";
 import pricingIcon from "../assets/pricing.png";
-import Signup from "../pages/Signup";
-
-import "./Navbar.css";
+import "./Navbar.css"; // CSS file ko import kar liya hai
 
 const Navbar = () => {
-    const [showSignup, setShowSignup] = useState(false);
-  const [location, setLocation] = useState("");
+  const [locationInput, setLocationInput] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  const currentPath = useLocation().pathname;
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    setIsLoggedIn(!!userId);
+  }, [currentPath]);
 
   return (
-    <>
     <nav className="navbar">
-      {/* Logo */}
-      <div className="logo">
+      {/* 1. LEFT SIDE: LOGO */}
+      <div className="logo-container">
         <Link to="/">
-          <img src={logo} 
-          alt="Travelia Logo" 
-          className="logo-image" />
+          <img src={logo} alt="Travelia Logo" className="logo-img" />
         </Link>
       </div>
-      {/* home */}
-      <div className="menu">
-          <Link to="/" className="home-link">
-             <img src={homeIcon} alt="Home" className="home-icon" />
-             <span>Home</span>
+
+      {/* 2. CENTER: LINKS (TOP) + SEARCH BAR (BOTTOM) */}
+      <div className="center-block">
+        {/* Top Level Links */}
+        <div className="menu-row">
+          <Link to="/" className="link-item">
+            <img src={homeIcon} alt="Home" className="icon" />
+            <span>Home</span>
           </Link>
 
-          {/* ballon */}
-          <Link to="/" className="balloon-link">
-             <img src={balloonIcon} alt="Balloon" className="balloon-icon" />
-             <span>Balloon</span>
+          <Link to="/pricing" className="link-item">
+            <img src={pricingIcon} alt="Pricing" className="icon" />
+            <span>Pricing</span>
           </Link>
 
-           {/* pricing */}
-          <Link to="/" className="pricing-link">
-             <img src={pricingIcon} alt="pricing" className="pricing-icon" />
-             <span>Pricing</span>
+          <Link to="/about" className="link-item">
+            <img src={balloonIcon} alt="About" className="icon" />
+            <span>About</span>
           </Link>
+        </div>
+
+        {/* Bottom Level Search Bar */}
+        <div className="search-row">
+          <input
+            type="text"
+            placeholder="Where to?"
+            value={locationInput}
+            onChange={(e) => setLocationInput(e.target.value)}
+            className="input input-location"
+          />
+          <input
+            type="date"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            className="input input-date"
+          />
+          <input
+            type="date"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            className="input input-date"
+          />
+          <input
+            type="number"
+            min="1"
+            value={guests}
+            onChange={(e) => setGuests(e.target.value)}
+            className="input input-guests"
+          />
+          <button className="search-submit-btn">
+            🔍
+          </button>
+        </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Where are you going?"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="search-input location"
-        />
-        <input
-          type="date"
-          value={checkIn}
-          onChange={(e) => setCheckIn(e.target.value)}
-          className="search-input date"
-        />
-        <input
-          type="date"
-          value={checkOut}
-          onChange={(e) => setCheckOut(e.target.value)}
-          className="search-input date"
-        />
-        <input
-          type="number"
-          min="1"
-          value={guests}
-          onChange={(e) => setGuests(e.target.value)}
-          className="search-input guests"
-        />
-        <button className="search-button">Search</button>
+      {/* 3. RIGHT SIDE: ACTION BUTTONS */}
+      <div className="right-block">
+        
+          <>
+            <Link to="/Addlisting">
+              <button className="host-btn">Become a host</button>
+            </Link>
+            <Link to="/login">
+              <button className="action-btn">Login</button>
+            </Link>
+          </>
+        
       </div>
-
-      {/* Right Signup */}
-     <div className="navbar-signup">
-   <Link to="/login">
-      <button>login</button>
-   </Link>
-</div>
     </nav>
-    </>
   );
 };
 

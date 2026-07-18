@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import "./Addlisting.css";
 import { useNavigate } from "react-router-dom";
 
-// Yeh line check karegi ki aap local computer par hain ya live server par
+// Dynamic URL for local development and live production
 const BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5000' 
   : 'https://traveliia.onrender.com';
 
 export default function AddListing() {
   const navigate = useNavigate();
-
   const [images, setImages] = useState([]);
-
   const [formData, setFormData] = useState({
     name: "",
     city: "",
@@ -32,17 +30,15 @@ export default function AddListing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Images:", images);   // 👈 yahan print karo
+    console.log("Images:", images);
 
     const data = new FormData();
-
     data.append("name", formData.name);
     data.append("city", formData.city);
     data.append("location", formData.location);
     data.append("price", formData.price);
     data.append("maxGuests", formData.maxGuests);
     data.append("description", formData.description);
-    // Agar amenities ko backend par bhejna hai toh ye line bhi use kar sakte hain:
     data.append("amenities", formData.amenities);
 
     for (let i = 0; i < images.length; i++) {
@@ -51,31 +47,35 @@ export default function AddListing() {
 
     const token = localStorage.getItem("token");
 
-    // Yahan live string ki jagah dynamic BASE_URL use kiya hai
-    const res = await fetch(`${BASE_URL}/api/hotels/create`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      body: data
-    });
+    try {
+      const res = await fetch(`${BASE_URL}/api/hotels/create`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: data
+      });
 
-    const result = await res.json();
-    alert(result.message);
+      const result = await res.json();
+      
+      // CHANGED: Server response message show karega (English format)
+      alert(result.message || "Operation completed successfully!");
 
-    // ✅ Redirect to Home page
-    if (res.ok) {
-      navigate("/Home"); // "/" is your Home route
+      if (res.ok) {
+        navigate("/Home"); 
+      }
+    } catch (error) {
+      console.error("Network Error Details:", error);
+      // CHANGED: Hindi alert message ko formal English error message mein convert kar diya hai
+      alert("Failed to connect to the server. Please check if your backend server is running on port 5000.");
     }
   };
 
   return (
     <div className="add-listing">
-
       <h2>Add Hotel Listing</h2>
 
       <form onSubmit={handleSubmit}>
-
         <input
           name="name"
           placeholder="Hotel Name"
@@ -117,7 +117,7 @@ export default function AddListing() {
           type="file"
           name="images"
           multiple
-          onChange={(e) => setImages([...e.target.files])}
+          onChange={(e) => setImages(e.target.files ? [...e.target.files] : [])}
         />
 
         <input
@@ -133,9 +133,7 @@ export default function AddListing() {
         />
 
         <button type="submit">Add Listing</button>
-
       </form>
-
     </div>
   );
 }

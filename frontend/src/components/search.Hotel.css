@@ -1,60 +1,216 @@
-searchHotel.css ka code do 
-/* Container for all hotel cards */
-.hotels-container {
+/* Container reset & configuration */
+.about-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333333;
+  line-height: 1.6;
+  margin-top: 100px; /* Adjust based on navbar height */
+  padding: 0;
+}
+
+/* Hero Section */
+.about-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), 
+              url('https://images.unsplash.com/photo-1455587734955-081b22074882?q=80&w=1920') no-repeat center center/cover;
+  height: 400px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-overlay h1 {
+  color: #ffffff;
+  font-size: 48px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.hero-overlay p {
+  color: #f0f0f0;
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Vision / Intro Section */
+.about-vision {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-vision h2 {
+  font-size: 32px;
+  color: #111111;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.about-vision p {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+/* Stats Counter Section */
+.about-stats {
+  background-color: #111111;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
-  gap: 20px;
+  padding: 20px 20px; /* Padding badhaye thodi spacing ke liye */
+  text-align: center;
+}
+
+.stat-card {
   padding: 20px;
-  justify-content: center; /* center cards horizontally */
+  min-width: 200px;
 }
 
-/* Each hotel card */
-.hotel-card {
-  background-color: #fff;
+.stat-card h3 {
+  font-size: 42px;
+  color: #ff385c;
+  margin: 0 0 5px 0;
+}
+
+.stat-card p {
+  font-size: 14px;
+  color: #cccccc;
+  margin: 0;
+}
+
+/* Features Section */
+.about-features {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.about-features h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.features-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px; /* FIX: 120px se badal kar 1200px kiya takia grid sahi se phaile */
+  margin: 0 auto;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.feature-item {
+  background: #ffffff;
+  padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 250px;
-  transition: transform 0.2s;
-  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  text-align: left;
+  box-sizing: border-box;
 }
 
-.hotel-card:hover {
+.feature-item h4 {
+  font-size: 20px;
+  color: #111111;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.feature-item p {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+/* Call to Action (CTA) Section */
+.about-cta {
+  padding: 80px 20px;
+  text-align: center;
+  background: #000000;
+  color: white;
+}
+
+.about-cta h2 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.about-cta p {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #bbbbbb;
+}
+
+.cta-btn {
+  background-color: #ff385c;
+  color: white;
+  border: none;
+  padding: 14px 35px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.cta-btn:hover {
+  background-color: #e03150;
   transform: scale(1.05);
 }
 
-/* Hotel image */
-.hotel-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
+/* ==========================================================================
+   Mobile Responsive Rules
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .about-container {
+    margin-top: 0; /* Auto flow structure */
+  }
 
-/* Hotel info */
-.hotel-card h3 {
-  font-size: 1.1rem;
-  margin: 10px;
-}
+  .about-hero {
+    height: 300px; /* Mobile par hero section ki height thodi choti ki */
+  }
 
-.hotel-card p {
-  margin: 5px 10px;
-  font-size: 0.9rem;
-  color: #555;
-}
+  .hero-overlay h1 {
+    font-size: 32px;
+  }
 
-/* View button */
-.view-button {
-  margin: 10px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  background-color: #ff5a5f;
-  color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s;
-}
+  .hero-overlay p {
+    font-size: 14px;
+    padding: 0 15px;
+  }
 
-.view-button:hover {
-  background-color: #e04e52;
+  .about-vision {
+    padding: 40px 20px;
+  }
+
+  .about-vision p {
+    text-align: left; /* Mobile par justify text kharab dikhta hai, isliye left kiya */
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px 20px;
+  }
+
+  .features-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature-item {
+    width: 100%; /* Mobile par full width ke liye */
+    max-width: 100%;
+  }
+
+  .about-cta h2 {
+    font-size: 26px;
+  }
 }
