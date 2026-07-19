@@ -39,7 +39,7 @@ const HotelsList = () => {
       navigate(`/PropertyDetails/${hotelId}`);
     } else {
       alert("Please login first to view property details!");
-      navigate("/login");
+      navigate("/Login");
     }
   };
 
